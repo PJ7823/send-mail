@@ -1,0 +1,13 @@
+Test/
+uploads/
+data/
+conf/
+.yo-repository
+NLPService/
+.DS_Store
+.idea
+node_modules
+logs
+jenkins-data/
+public/
+TestProject/
