@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const SibApiV3Sdk = require('@getbrevo/brevo');
 const bodyParser = require('body-parser');
+const cron = require('node-cron');
 
 require('dotenv').config();
 
@@ -118,4 +119,14 @@ app.use((err, req, res, next) => {
 // Start the server
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
+});
+
+
+// CRON JOB
+function logMessage() {
+    console.log('Cron job executed at:', new Date().toLocaleString());
+}
+// Schedule the cron job to run every minute
+cron.schedule('*/10 * * * *', () => {
+    logMessage();
 });
