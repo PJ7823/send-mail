@@ -3,6 +3,7 @@ const cors = require('cors');
 const SibApiV3Sdk = require('@getbrevo/brevo');
 const bodyParser = require('body-parser');
 const cron = require('node-cron');
+const axios = require('axios');
 
 require('dotenv').config();
 
@@ -107,6 +108,19 @@ app.post('/send-mail', async (req, res) => {
     }
 });
 
+app.post('/ping', async (req, res) => {
+    console.log("ping entered")
+    try {
+        return res.status(200).json({
+            message: 'ping Successful'
+        })
+    } catch(error) {
+        return res.status(500).json({
+            message: 'ping failed!'
+        })
+    }
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
@@ -123,9 +137,17 @@ app.listen(port, () => {
 
 
 // CRON JOB
-function logMessage() {
+let url = "https://send-mail11-nkfh.onrender.com/ping";
+async function logMessage() {
     console.log('Cron job executed at:', new Date().toLocaleString());
+    try {
+        const response = await axios.post(url);
+        console.log(response.data);
+    } catch (error) {
+        console.error('Error:', error.message);
+    }
 }
+
 // Schedule the cron job to run every minute
 cron.schedule('*/10 * * * *', () => {
     logMessage();
