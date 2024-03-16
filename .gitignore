@@ -11,3 +11,4 @@ logs
 jenkins-data/
 public/
 TestProject/
+.env
